@@ -1,4 +1,13 @@
 {
+    "apix/log": {
+        "version": "1.2.1"
+    },
+    "chrome-php/chrome": {
+        "version": "v0.8.1"
+    },
+    "evenement/evenement": {
+        "version": "v3.0.1"
+    },
     "php": {
         "version": "7.3"
     },
@@ -169,5 +178,11 @@
     },
     "twig/twig": {
         "version": "v3.0.5"
+    },
+    "twittingeek/webprobe": {
+        "version": "dev-master"
+    },
+    "wrench/wrench": {
+        "version": "v2.0.11"
     }
 }

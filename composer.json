@@ -19,11 +19,18 @@
         "symfony/framework-bundle": "5.1.*",
         "symfony/validator": "5.1.*",
         "symfony/web-server-bundle": "4.4",
-        "symfony/yaml": "5.1.*"
+        "symfony/yaml": "5.1.*",
+        "twittingeek/webProbe": "dev-master"
     },
     "require-dev": {
         "symfony/debug-bundle": "5.1.*"
     },
+    "repositories":[
+        {
+            "type": "vcs",
+            "url": "git@github.com:twittingeek/webProbe.git"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {
