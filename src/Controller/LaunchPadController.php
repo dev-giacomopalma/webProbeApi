@@ -29,6 +29,6 @@ class LaunchPadController extends AbstractFOSRestController
      */
     public function postMovieAction(Request $request)
     {
-        return $this->handleView($this->view([$request->request->get('a')]));
+        return $this->handleView($this->view([$request->request->get('mission')]));
     }
 }
