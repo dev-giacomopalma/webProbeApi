@@ -4,6 +4,5 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], []],
-    'api_app_launchpad_getmovie' => [[], ['_controller' => 'App\\Controller\\LaunchPadController::getMovieAction'], [], [['text', '/api/mission']], [], []],
-    'api_app_launchpad_postmovie' => [[], ['_controller' => 'App\\Controller\\LaunchPadController::postMovieAction'], [], [['text', '/api/mission']], [], []],
+    'api_app_launchpad_missionrequest' => [[], ['_controller' => 'App\\Controller\\LaunchPadController::missionRequest'], [], [['text', '/api/missionRequest']], [], []],
 ];

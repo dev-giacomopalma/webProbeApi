@@ -8,10 +8,7 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
-        '/api/mission' => [
-            [['_route' => 'api_app_launchpad_getmovie', '_controller' => 'App\\Controller\\LaunchPadController::getMovieAction'], null, ['GET' => 0], null, false, false, null],
-            [['_route' => 'api_app_launchpad_postmovie', '_controller' => 'App\\Controller\\LaunchPadController::postMovieAction'], null, ['POST' => 0], null, false, false, null],
-        ],
+        '/api/missionRequest' => [[['_route' => 'api_app_launchpad_missionrequest', '_controller' => 'App\\Controller\\LaunchPadController::missionRequest'], null, ['POST' => 0], null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'

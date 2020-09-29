@@ -1,4 +1,3 @@
-# Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
 fos_rest:
   routing_loader: false
   body_listener: true
