@@ -36,9 +36,14 @@ class ApiMission extends BaseMission
                     $field->name = $name;
                     switch ($evaluationRule['type']) {
                         case "tag":
-                            $field->value = $this->evaluateField($evaluationRule);
+                            $field->value = $this->evaluateFieldTag($evaluationRule);
                             break;
-
+                        case "text":
+                            $field->value = $this->evaluateFieldText($evaluationRule);
+                            break;
+                        default:
+                            //todo throw unsupported type exception
+                            break;
                     }
                     $res[] = $field;
                 }
@@ -51,15 +56,29 @@ class ApiMission extends BaseMission
 
     }
 
-    private function evaluateField(array $evaluationRule): string
+    private function evaluateFieldTag(array $evaluationRule): string
     {
         $payload = $this->probeResult->payload;
-        $res = ScraperHelper::readAfter($evaluationRule['identifier'], $payload['body']);
-        $res = ScraperHelper::readBefore('</'.$evaluationRule['tagType'], $res[0]);
+        $res = ScraperHelper::readAfter($evaluationRule['identifier'], $payload['body'], false, true);
+        $res = ScraperHelper::readBefore('</'.$evaluationRule['tagType'], $res[0], false, true);
 
         $toRemove = ScraperHelper::readBefore('>', $res[0]);
 
         return str_replace($toRemove[0].'>', '', $res[0]);
+    }
+
+    private function evaluateFieldText($evaluationRule): string
+    {
+        $payload = $this->probeResult->payload;
+        $res = ScraperHelper::readBetween(
+            $evaluationRule['identifier'],
+            $evaluationRule['closeIdentifier'],
+            $payload['body'],
+            false,
+            true
+        );
+
+        return $res[0];
     }
 
 }
