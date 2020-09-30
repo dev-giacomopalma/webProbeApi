@@ -192,8 +192,12 @@
       <parameter key="ROLE_USER" type="collection">
         <parameter>ROLE_USER</parameter>
       </parameter>
+      <parameter key="ROLE_SUPER_USER" type="collection">
+        <parameter>ROLE_USER</parameter>
+      </parameter>
       <parameter key="ROLE_ADMIN" type="collection">
         <parameter>ROLE_USER</parameter>
+        <parameter>ROLE_SUPER_USER</parameter>
         <parameter>ROLE_ALLOWED_TO_SWITCH</parameter>
       </parameter>
     </parameter>
@@ -3563,14 +3567,14 @@
     </service>
     <service id="security.user.provider.concrete.in_memory" class="Symfony\Component\Security\Core\User\InMemoryUserProvider" public="false">
       <argument type="collection">
-        <argument key="admin" type="collection">
-          <argument key="password">mypassword,</argument>
+        <argument key="simoneguglielmi" type="collection">
+          <argument key="password">dld=P@$gE*33S&gt;[vn}chhUf_5./&amp;.S%;44^,(y</argument>
           <argument key="roles" type="collection">
-            <argument>ROLE_ADMIN</argument>
+            <argument>ROLE_SUPER_USER</argument>
           </argument>
         </argument>
-        <argument key="simoneguglielmi" type="collection">
-          <argument key="password">aUDfbM@}wnG?ZD\5eN)&gt;{f/"JFGeF01,</argument>
+        <argument key="admin" type="collection">
+          <argument key="password">admin</argument>
           <argument key="roles" type="collection">
             <argument>ROLE_ADMIN</argument>
           </argument>
