@@ -60,9 +60,10 @@ class LaunchPadController extends AbstractFOSRestController
 
     private function persistRequestResponse(Request $request, array $response)
     {
+        $data = $request->request->get('data');
         $requestResponse = new RequestResponse();
-        $requestResponse->setMd5Request(md5(json_encode($request)));
-        $requestResponse->setRequest(json_encode($request));
+        $requestResponse->setMd5Request(md5(json_encode($data)));
+        $requestResponse->setRequest(json_encode($data));
         $requestResponse->setResponse(json_encode($response));
         $requestResponse->setUser($request->getUser());
         $requestResponse->setClientIp($request->getClientIp());
