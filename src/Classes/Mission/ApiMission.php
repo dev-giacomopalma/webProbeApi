@@ -59,7 +59,12 @@ class ApiMission extends BaseMission
     private function evaluateFieldTag(array $evaluationRule): string
     {
         $payload = $this->probeResult->payload;
-        $res = ScraperHelper::readAfter($evaluationRule['identifier'], $payload['body'], false, true);
+        $res = ScraperHelper::readAfter(
+            $this->formatIdentifier($evaluationRule),
+            $payload['body'],
+            false,
+            true
+        );
         $res = ScraperHelper::readBefore('</'.$evaluationRule['tagType'], $res[0], false, true);
 
         $toRemove = ScraperHelper::readBefore('>', $res[0]);
@@ -79,6 +84,15 @@ class ApiMission extends BaseMission
         );
 
         return $res[0];
+    }
+
+    private function formatIdentifier(array $evaluationRule)
+    {
+        if ($evaluationRule['identifier'][count($evaluationRule['identifier'] - 1)] === "*") {
+            return $evaluationRule['attribute'].'="'.substr($evaluationRule['identifier'], 0, -1);
+        }
+
+        return $evaluationRule['attribute'].'="'.$evaluationRule['identifier'].'"';
     }
 
 }
