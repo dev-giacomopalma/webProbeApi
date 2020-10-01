@@ -13,7 +13,7 @@ security:
       memory:
         users:
           simoneguglielmi: { password: 'dld=P@$gE*33S>[vn}chhUf_5./&.S%;44^,(y', roles: 'ROLE_SUPER_USER' }
-          admin: { password: 'admin', roles: 'ROLE_ADMIN' }
+          admin: { password: 'ps]Tb},^;J\`wuyM#$"aUy*45aLBtlkl', roles: 'ROLE_ADMIN' }
 
   firewalls:
     default:
