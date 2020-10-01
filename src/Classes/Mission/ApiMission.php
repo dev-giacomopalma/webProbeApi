@@ -7,9 +7,7 @@ namespace App\Classes\Mission;
 use App\Classes\Mission\Dto\FieldDto;
 use twittingeek\webProbe\Missions\BaseMission;
 use twittingeek\webProbe\Missions\Interfaces\MissionResult;
-use twittingeek\webProbe\Missions\Settings\MissionSetting;
 use twittingeek\webProbe\Probes\Helpers\ScraperHelper;
-use twittingeek\webProbe\Probes\Interfaces\Probe;
 use twittingeek\webProbe\Probes\Libraries\DiscoveryLibrary;
 use twittingeek\webProbe\Probes\ProbeResult;
 
@@ -88,7 +86,7 @@ class ApiMission extends BaseMission
 
     private function formatIdentifier(array $evaluationRule)
     {
-        if ($evaluationRule['identifier'][count($evaluationRule['identifier'] - 1)] === "*") {
+        if ($evaluationRule['identifier'][strlen($evaluationRule['identifier']) - 1] === "*") {
             return $evaluationRule['attribute'].'="'.substr($evaluationRule['identifier'], 0, -1);
         }
 
