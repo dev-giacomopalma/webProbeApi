@@ -4,6 +4,7 @@ use App\Classes\Mission\ApiMission;
 use App\Classes\Mission\Setting\ApiMissionSetting;
 use App\Classes\Probe\ApiProbe;
 use App\Classes\Probe\Setting\ApiProbeSetting;
+use App\Entity\RequestCount;
 use App\Entity\RequestResponse;
 use DateInterval;
 use DateTime;
@@ -33,7 +34,7 @@ class LaunchPadController extends AbstractFOSRestController
     public function missionRequest(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
-        
+        $this->rateLimitRequest($request);
         $cachedResponse = $this->findCachedResponse($request);
 
         if (null !== $cachedResponse) {
@@ -77,16 +78,38 @@ class LaunchPadController extends AbstractFOSRestController
     private function findCachedResponse(Request $request)
     {
         $repository = $this->getDoctrine()->getRepository(RequestResponse::class);
-
+        $data = $request->request->get('data');
         $cacheDate = new DateTime('now');
-        $cacheDate->sub(new DateInterval('PT1H'));
+        $cacheDate->sub(new DateInterval('PT1H')); // will be fixed with timezones
         /** @var RequestResponse $requestResponse */
-        $requestResponse = $repository->findOneBy(['md5Request' => md5(json_encode($request))]);
+        $requestResponse = $repository->findOneBy(['md5Request' => md5(json_encode($data))]);
 
         if ((null !== $requestResponse) && $requestResponse->getCreationDate() > $cacheDate) {
             return $requestResponse->getResponse();
         }
 
         return null;
+    }
+
+    private function rateLimitRequest(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(RequestCount::class);
+
+        /** @var RequestCount $requestCount */
+        $requestCount = $repository->findOneBy(['username' => $request->getUser()]);
+
+        if (null === $requestCount) {
+            $requestCount = new RequestCount();
+            $requestCount->setCount(1);
+            $requestCount->setUsername($request->getUser());
+        } else {
+            $requestCount->setCount($requestCount->getCount() + 1);
+        }
+
+        $requestCount->setLastRequestDate(new DateTime('now'));
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($requestCount);
+        $em->flush();
     }
 }
