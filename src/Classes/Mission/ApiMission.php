@@ -55,6 +55,8 @@ class ApiMission extends BaseMission
                 $resCount = count($resEvaluation[$name]);
             } elseif ($this->missionSetting->getResultType() === 'single') {
                 $resCount = 1;
+            } else {
+                // throw invalid exception
             }
             $return = [];
             for ($i=0; $i<$resCount; $i++) {
