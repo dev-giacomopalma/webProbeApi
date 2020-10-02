@@ -48,9 +48,12 @@ class ApiMission extends BaseMission
                 }
             }
 
+            if (empty($resEvaluation)) {
+                return [];
+            }
             if ($this->missionSetting->getResultType() === 'all') {
                 $resCount = count($resEvaluation[$name]);
-            } else {
+            } elseif ($this->missionSetting->getResultType() === 'single') {
                 $resCount = 1;
             }
             $return = [];
