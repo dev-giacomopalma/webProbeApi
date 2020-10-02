@@ -26,27 +26,47 @@ class ApiMission extends BaseMission
         if (null !== $this->missionSetting->getEvaluation() && !empty($this->missionSetting->getEvaluation())) {
             $this->discoveryLibrary = new DiscoveryLibrary();
             $res = [];
+            $firstKey = null;
             /** @var array $evaluation */
             foreach ($this->missionSetting->getEvaluation() as $evaluationRules) {
                 $resEvaluation = [];
                 foreach ($evaluationRules as $name => $evaluationRule) {
-                    $field = new FieldDto();
-                    $field->name = $name;
+                    if (null === $firstKey) {
+                        $firstKey = $name;
+                    }
                     switch ($evaluationRule['type']) {
                         case "tag":
-                            $field->value = $this->evaluateFieldTag($evaluationRule);
+                            $resEvaluation[$name] = $this->evaluateFieldTag($evaluationRule);
                             break;
                         case "text":
-                            $field->value = $this->evaluateFieldText($evaluationRule);
+                            $resEvaluation[$name] = $this->evaluateFieldText($evaluationRule);
                             break;
                         default:
                             //todo throw unsupported type exception
                             break;
                     }
-                    $res[] = $field;
                 }
             }
-            return new MissionResult(MissionResult::OK_STATUS_CODE, $res);
+
+            if ($this->missionSetting->getResultType() === 'all') {
+                $resCount = count($resEvaluation[$name]);
+            } else {
+                $resCount = 1;
+            }
+            $return = [];
+            for ($i=0; $i<$resCount; $i++) {
+                $res = [];
+                foreach ($resEvaluation as $key => $items) {
+                    $field = new FieldDto();
+                    $field->name = $key;
+                    $field->value = $items[$i];
+
+                    $res[] = $field;
+                }
+                $return[] = $res;
+            }
+
+            return new MissionResult(MissionResult::OK_STATUS_CODE, $return);
 
         }
 
@@ -54,34 +74,39 @@ class ApiMission extends BaseMission
 
     }
 
-    private function evaluateFieldTag(array $evaluationRule): string
+    private function evaluateFieldTag(array $evaluationRule): array
     {
+        $return = [];
         $payload = $this->probeResult->payload;
-        $res = ScraperHelper::readAfter(
+        $results = ScraperHelper::readAfter(
             $this->formatIdentifier($evaluationRule),
             $payload['body'],
-            false,
+            true,
             true
         );
-        $res = ScraperHelper::readBefore('</'.$evaluationRule['tagType'], $res[0], false, true);
 
-        $toRemove = ScraperHelper::readBefore('>', $res[0]);
+        foreach ($results as $key => $res) {
+            $internalResults = ScraperHelper::readBefore('</'.$evaluationRule['tagType'], $res, false, true);
+            $toRemove = ScraperHelper::readBefore('>', $internalResults[0]);
 
-        return str_replace($toRemove[0].'>', '', $res[0]);
+            $return[] = str_replace($toRemove[0].'>', '', $internalResults[0]);
+        }
+
+        return $return;
     }
 
-    private function evaluateFieldText($evaluationRule): string
+    private function evaluateFieldText($evaluationRule): array
     {
         $payload = $this->probeResult->payload;
         $res = ScraperHelper::readBetween(
             $evaluationRule['identifier'],
             $evaluationRule['closeIdentifier'],
             $payload['body'],
-            false,
+            true,
             true
         );
 
-        return $res[0];
+        return $res;
     }
 
     private function formatIdentifier(array $evaluationRule)
