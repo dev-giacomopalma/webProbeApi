@@ -1,10 +1,12 @@
 <?php
 
-
 namespace App\Classes\Mission;
 
-
+use App\Classes\Exceptions\FieldEvaluationException;
+use App\Classes\Exceptions\UnsupportedEvaluationRuleTypeException;
+use App\Classes\Exceptions\UnsupportedResultTypeException;
 use App\Classes\Mission\Dto\FieldDto;
+use Exception;
 use twittingeek\webProbe\Missions\BaseMission;
 use twittingeek\webProbe\Missions\Interfaces\MissionResult;
 use twittingeek\webProbe\Probes\Helpers\ScraperHelper;
@@ -14,18 +16,39 @@ use twittingeek\webProbe\Probes\ProbeResult;
 class ApiMission extends BaseMission
 {
 
+    private const EVALUATION_RULE_TYPE_TAG_NAME = 'tag';
+    private const EVALUATION_RULE_TYPE_TEXT_NAME = 'text';
+
+    private const ALLOWED_EVALUATION_RULE_TYPES = [
+        self::EVALUATION_RULE_TYPE_TAG_NAME,
+        self::EVALUATION_RULE_TYPE_TEXT_NAME
+    ];
+    private const STATUS_EMPTY = 400;
+
+    private const RESULT_TYPE_ALL_NAME = 'all';
+    private const RESULT_TYPE_SINGLE_NAME = 'single';
+
+    private const ALLOWED_RESULT_TYPES = [
+        self::RESULT_TYPE_ALL_NAME,
+        self::RESULT_TYPE_SINGLE_NAME
+    ];
+
     /** @var ProbeResult */
     private $probeResult;
 
     /** @var DiscoveryLibrary */
     private $discoveryLibrary;
 
+    /**
+     * @return MissionResult
+     * @throws Exception
+     */
     public function execute(): MissionResult
     {
         $this->probeResult = $this->probe->run();
+
         if (null !== $this->missionSetting->getEvaluation() && !empty($this->missionSetting->getEvaluation())) {
             $this->discoveryLibrary = new DiscoveryLibrary();
-            $res = [];
             $firstKey = null;
             /** @var array $evaluation */
             foreach ($this->missionSetting->getEvaluation() as $evaluationRules) {
@@ -35,28 +58,60 @@ class ApiMission extends BaseMission
                         $firstKey = $name;
                     }
                     switch ($evaluationRule['type']) {
-                        case "tag":
-                            $resEvaluation[$name] = $this->evaluateFieldTag($evaluationRule);
+                        case self::EVALUATION_RULE_TYPE_TAG_NAME:
+                            try {
+                                $resEvaluation[$name] = $this->evaluateFieldTag($evaluationRule);
+                            } catch (Exception $e) {
+                                throw new FieldEvaluationException(
+                                    sprintf(
+                                        'Impossible to evaluate field: %s, verify the request is correct %s',
+                                        $name,
+                                        json_encode($evaluationRule)
+                                    )
+                                );
+                            }
                             break;
-                        case "text":
-                            $resEvaluation[$name] = $this->evaluateFieldText($evaluationRule);
+                        case self::EVALUATION_RULE_TYPE_TEXT_NAME:
+                            try {
+                                $resEvaluation[$name] = $this->evaluateFieldText($evaluationRule);
+                            } catch (Exception $e) {
+                                throw new FieldEvaluationException(
+                                    sprintf(
+                                        'Impossible to evaluate field: %s, verify the request is correct %s',
+                                        $name,
+                                        json_encode($evaluationRule)
+                                    )
+                                );
+                            }
                             break;
                         default:
-                            //todo throw unsupported type exception
+                            throw new UnsupportedEvaluationRuleTypeException(
+                                sprintf(
+                                    'Unsupported evaluation rule type %s Valid evaluation rule types are: %s',
+                                    $evaluationRule['type'],
+                                    implode(', ', self::ALLOWED_EVALUATION_RULE_TYPES)
+                                    )
+                            );
                             break;
                     }
                 }
             }
 
             if (empty($resEvaluation)) {
-                return [];
+                return new MissionResult(self::STATUS_EMPTY, []);
             }
-            if ($this->missionSetting->getResultType() === 'all') {
+            if ($this->missionSetting->getResultType() === self::RESULT_TYPE_ALL_NAME) {
                 $resCount = count($resEvaluation[$name]);
-            } elseif ($this->missionSetting->getResultType() === 'single') {
+            } elseif ($this->missionSetting->getResultType() === self::RESULT_TYPE_SINGLE_NAME) {
                 $resCount = 1;
             } else {
-                // throw invalid exception
+                throw new UnsupportedResultTypeException(
+                    sprintf(
+                        'Unsupported result type %s Valid result types are: %s',
+                        $this->missionSetting->getResultType(),
+                        implode(', ', self::ALLOWED_RESULT_TYPES)
+                    )
+                );
             }
             $return = [];
             for ($i=0; $i<$resCount; $i++) {

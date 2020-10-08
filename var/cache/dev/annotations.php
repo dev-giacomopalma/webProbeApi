@@ -65,6 +65,12 @@ return [[
 '%5B%5BC%5DApp%5CController%5CLaunchPadController%5D%5B1%5D' => 2,
 '%5BApp%5CController%5CLaunchPadController%23missionRequest%5D%5B1%5D' => 4,
 '%5B%5BC%5DApp%5CController%5CLaunchPadController%23missionRequest%5D%5B1%5D' => 2,
+'%5BApp%5CController%5CLaunchPadController%23persistRequestResponse%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CController%5CLaunchPadController%23persistRequestResponse%5D%5B1%5D' => 2,
+'%5BApp%5CController%5CLaunchPadController%23findCachedResponse%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CController%5CLaunchPadController%23findCachedResponse%5D%5B1%5D' => 2,
+'%5BApp%5CController%5CLaunchPadController%23rateLimitRequest%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CController%5CLaunchPadController%23rateLimitRequest%5D%5B1%5D' => 2,
 '%5BFOS%5CRestBundle%5CController%5CAbstractFOSRestController%23getViewHandler%5D%5B1%5D' => 1,
 '%5B%5BC%5DFOS%5CRestBundle%5CController%5CAbstractFOSRestController%23getViewHandler%5D%5B1%5D' => 2,
 '%5BFOS%5CRestBundle%5CController%5CAbstractFOSRestController%23getSubscribedServices%5D%5B1%5D' => 1,
@@ -79,20 +85,38 @@ return [[
 '%5B%5BC%5DFOS%5CRestBundle%5CController%5CAbstractFOSRestController%23routeRedirectView%5D%5B1%5D' => 2,
 '%5BFOS%5CRestBundle%5CController%5CAbstractFOSRestController%23handleView%5D%5B1%5D' => 1,
 '%5B%5BC%5DFOS%5CRestBundle%5CController%5CAbstractFOSRestController%23handleView%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%5D%5B1%5D' => 5,
+'%5BApp%5CEntity%5CRequestCount%5D%5B1%5D' => 5,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23getId%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23getId%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23setId%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23setId%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23getUsername%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23getUsername%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23setUsername%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23setUsername%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23getCount%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23getCount%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23setCount%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23setCount%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23getLastRequestDate%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23getLastRequestDate%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%23setLastRequestDate%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%23setLastRequestDate%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%24id%5D%5B1%5D' => 6,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%24id%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%24username%5D%5B1%5D' => 7,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%24username%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%24count%5D%5B1%5D' => 8,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%24count%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestCount%24lastRequestDate%5D%5B1%5D' => 9,
+'%5B%5BC%5DApp%5CEntity%5CRequestCount%24lastRequestDate%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestResponse%5D%5B1%5D' => 10,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%23getId%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%23getId%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%23setId%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%23setId%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%23getName%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23getName%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%23setName%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23setName%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%23getDescription%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23getDescription%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%23setDescription%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23setDescription%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%23getMd5Request%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%23getMd5Request%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%23setMd5Request%5D%5B1%5D' => 1,
@@ -113,24 +137,24 @@ return [[
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%23getClientIp%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%23setClientIp%5D%5B1%5D' => 1,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%23setClientIp%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%23getData%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23getData%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%23setData%5D%5B1%5D' => 1,
-'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23setData%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestResponse%23getCreationDate%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23getCreationDate%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestResponse%23setCreationDate%5D%5B1%5D' => 1,
+'%5B%5BC%5DApp%5CEntity%5CRequestResponse%23setCreationDate%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%24id%5D%5B1%5D' => 6,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%24id%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%24md5Request%5D%5B1%5D' => 7,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%24md5Request%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%24request%5D%5B1%5D' => 8,
+'%5BApp%5CEntity%5CRequestResponse%24request%5D%5B1%5D' => 11,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%24request%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%24response%5D%5B1%5D' => 8,
+'%5BApp%5CEntity%5CRequestResponse%24response%5D%5B1%5D' => 11,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%24response%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%24user%5D%5B1%5D' => 7,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%24user%5D%5B1%5D' => 2,
 '%5BApp%5CEntity%5CRequestResponse%24clientIp%5D%5B1%5D' => 7,
 '%5B%5BC%5DApp%5CEntity%5CRequestResponse%24clientIp%5D%5B1%5D' => 2,
-'%5BApp%5CEntity%5CRequestResponse%24data%5D%5B1%5D' => 9,
-'%5B%5BC%5DApp%5CEntity%5CRequestResponse%24data%5D%5B1%5D' => 2,
+'%5BApp%5CEntity%5CRequestResponse%24creationDate%5D%5B1%5D' => 9,
+'%5B%5BC%5DApp%5CEntity%5CRequestResponse%24creationDate%5D%5B1%5D' => 2,
 '%5BDoctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController%5D%5B1%5D' => 1,
 '%5B%5BC%5DDoctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController%5D%5B1%5D' => 2,
 '%5BDoctrine%5CBundle%5CDoctrineBundle%5CController%5CProfilerController%23setContainer%5D%5B1%5D' => 1,
@@ -862,7 +886,7 @@ return [[
 
 0 => 'N;',
 1 => [],
-2 => 1601449910,
+2 => 1602176243,
 3 => static function () {
     return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
         $o = [
@@ -919,7 +943,7 @@ return [[
         [
             'stdClass' => [
                 'name' => [
-                    1 => 'requestResponse',
+                    1 => 'requestCount',
                 ],
             ],
         ],
@@ -989,7 +1013,7 @@ return [[
         [
             'stdClass' => [
                 'type' => [
-                    'text',
+                    'integer',
                 ],
                 'groups' => [
                     1 => [
@@ -1015,7 +1039,54 @@ return [[
         [
             'stdClass' => [
                 'type' => [
-                    'date',
+                    'datetime',
+                ],
+                'groups' => [
+                    1 => [
+                        'Default',
+                    ],
+                ],
+            ],
+        ],
+        [
+            $o[0],
+            $o[1],
+        ],
+        []
+    );
+},
+10 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Entity'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Entity')),
+            clone ($p['Doctrine\\ORM\\Mapping\\Table'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Table')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'name' => [
+                    1 => 'requestResponse',
+                ],
+            ],
+        ],
+        [
+            $o[0],
+            $o[1],
+        ],
+        []
+    );
+},
+11 => static function () {
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\Column'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\Column')),
+            clone ($p['Symfony\\Component\\Validator\\Constraints\\NotBlank'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Validator\\Constraints\\NotBlank')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'type' => [
+                    'text',
                 ],
                 'groups' => [
                     1 => [
