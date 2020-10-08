@@ -217,6 +217,11 @@
       <tag name="controller.service_arguments"/>
       <tag name="routing.route_loader"/>
     </service>
+    <service id="App\Classes\Exceptions\ExceptionMapper" class="App\Classes\Exceptions\ExceptionMapper" autowire="true" autoconfigure="true"/>
+    <service id="App\Classes\Exceptions\FieldEvaluationException" class="App\Classes\Exceptions\FieldEvaluationException" autowire="true" autoconfigure="true"/>
+    <service id="App\Classes\Exceptions\UnsupportedEvaluationRuleTypeException" class="App\Classes\Exceptions\UnsupportedEvaluationRuleTypeException" autowire="true" autoconfigure="true"/>
+    <service id="App\Classes\Exceptions\UnsupportedResultTypeException" class="App\Classes\Exceptions\UnsupportedResultTypeException" autowire="true" autoconfigure="true"/>
+    <service id="App\Classes\LaunchPad\ApiLaunchPad" class="App\Classes\LaunchPad\ApiLaunchPad" autowire="true" autoconfigure="true"/>
     <service id="App\Classes\Mission\ApiMission" class="App\Classes\Mission\ApiMission" autowire="true" autoconfigure="true"/>
     <service id="App\Classes\Mission\Dto\FieldDto" class="App\Classes\Mission\Dto\FieldDto" autowire="true" autoconfigure="true"/>
     <service id="App\Classes\Probe\ApiProbe" class="App\Classes\Probe\ApiProbe" autowire="true" autoconfigure="true"/>
@@ -3574,7 +3579,7 @@
           </argument>
         </argument>
         <argument key="admin" type="collection">
-          <argument key="password">admin</argument>
+          <argument key="password">ps]Tb},^;J\`wuyM#$"aUy*45aLBtlkl</argument>
           <argument key="roles" type="collection">
             <argument>ROLE_ADMIN</argument>
           </argument>

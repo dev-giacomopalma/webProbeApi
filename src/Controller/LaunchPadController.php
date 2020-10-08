@@ -1,20 +1,20 @@
 <?php
 namespace App\Controller;
+use App\Classes\Exceptions\ExceptionMapper;
+use App\Classes\LaunchPad\ApiLaunchPad;
 use App\Classes\Mission\ApiMission;
-use App\Classes\Mission\Setting\ApiMissionSetting;
 use App\Classes\Probe\ApiProbe;
-use App\Classes\Probe\Setting\ApiProbeSetting;
 use App\Entity\RequestCount;
 use App\Entity\RequestResponse;
 use DateInterval;
 use DateTime;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Validator\Constraints\Date;
-use twittingeek\webProbe\LaunchPad\LaunchPad;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use twittingeek\webProbe\Missions\Settings\MissionSetting;
 use twittingeek\webProbe\Probes\Settings\ProbeSetting;
 
@@ -31,9 +31,13 @@ class LaunchPadController extends AbstractFOSRestController
      *
      * @return Response
      */
-    public function missionRequest(Request $request)
+    public function missionRequest(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access this page!');
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER', null, 'You have no access to this endpoint');
+        } catch (AccessDeniedException $exception) {
+            return $this->returnError($exception);
+        }
         $this->rateLimitRequest($request);
         $cachedResponse = $this->findCachedResponse($request);
 
@@ -47,9 +51,13 @@ class LaunchPadController extends AbstractFOSRestController
             $probe = new ApiProbe($probeSetting);
             $missionSetting = new MissionSetting($data['resultType'], $data['evaluation'] ?? []);
             $mission = new ApiMission($missionSetting, $probe);
-            $launchPad = new LaunchPad($mission);
+            $launchPad = new ApiLaunchPad($mission);
 
-            $missionResult = $launchPad->launch();
+            try {
+                $missionResult = $launchPad->launch();
+            } catch (Exception $exception) {
+                return $this->returnError($exception);
+            }
 
             $response = ['data' => $missionResult->getPayload()];
 
@@ -59,7 +67,7 @@ class LaunchPadController extends AbstractFOSRestController
 
     }
 
-    private function persistRequestResponse(Request $request, array $response)
+    private function persistRequestResponse(Request $request, array $response): void
     {
         $data = $request->request->get('data');
         $requestResponse = new RequestResponse();
@@ -91,7 +99,7 @@ class LaunchPadController extends AbstractFOSRestController
         return null;
     }
 
-    private function rateLimitRequest(Request $request)
+    private function rateLimitRequest(Request $request): void
     {
         $repository = $this->getDoctrine()->getRepository(RequestCount::class);
 
@@ -111,5 +119,14 @@ class LaunchPadController extends AbstractFOSRestController
         $em = $this->getDoctrine()->getManager();
         $em->persist($requestCount);
         $em->flush();
+    }
+
+    private function returnError(Exception $exception): Response
+    {
+        $response = [
+            'errorCode' => ExceptionMapper::mapExceptionToErrorCode($exception),
+            'errorMessage' => $exception->getMessage()
+        ];
+        return $this->json($response);
     }
 }
