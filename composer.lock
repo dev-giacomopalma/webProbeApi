@@ -1077,19 +1077,20 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.7.3",
+            "version": "2.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "d95e03ba660d50d785a9925f41927fef0ee553cf"
+                "reference": "7d84a4998091ece4d645253ac65de9f879eeed2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/d95e03ba660d50d785a9925f41927fef0ee553cf",
-                "reference": "d95e03ba660d50d785a9925f41927fef0ee553cf",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/7d84a4998091ece4d645253ac65de9f879eeed2f",
+                "reference": "7d84a4998091ece4d645253ac65de9f879eeed2f",
                 "shasum": ""
             },
             "require": {
+                "composer/package-versions-deprecated": "^1.8",
                 "doctrine/annotations": "^1.8",
                 "doctrine/cache": "^1.9.1",
                 "doctrine/collections": "^1.5",
@@ -1101,7 +1102,6 @@
                 "doctrine/lexer": "^1.0",
                 "doctrine/persistence": "^1.3.3 || ^2.0",
                 "ext-pdo": "*",
-                "ocramius/package-versions": "^1.2",
                 "php": "^7.1",
                 "symfony/console": "^3.0|^4.0|^5.0"
             },
@@ -1161,7 +1161,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2020-05-26T16:03:49+00:00"
+            "time": "2020-10-10T17:11:26+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -2932,16 +2932,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.9.6",
+            "version": "v1.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "5c71110ad383ada3d5305c19ff8419a58f799c00"
+                "reference": "1cc70238036f54760ce9180484c973b1a3c87b05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/5c71110ad383ada3d5305c19ff8419a58f799c00",
-                "reference": "5c71110ad383ada3d5305c19ff8419a58f799c00",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/1cc70238036f54760ce9180484c973b1a3c87b05",
+                "reference": "1cc70238036f54760ce9180484c973b1a3c87b05",
                 "shasum": ""
             },
             "require": {
@@ -2977,7 +2977,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2020-10-07T12:55:56+00:00"
+            "time": "2020-10-13T17:37:40+00:00"
         },
         {
             "name": "symfony/form",
@@ -5160,12 +5160,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:twittingeek/webProbe.git",
-                "reference": "66660d0df0f16df4580df3d3bcb69d5ff081d604"
+                "reference": "98563bf0d92819b10b68ee4067d16e68a3097165"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twittingeek/webProbe/zipball/66660d0df0f16df4580df3d3bcb69d5ff081d604",
-                "reference": "66660d0df0f16df4580df3d3bcb69d5ff081d604",
+                "url": "https://api.github.com/repos/twittingeek/webProbe/zipball/98563bf0d92819b10b68ee4067d16e68a3097165",
+                "reference": "98563bf0d92819b10b68ee4067d16e68a3097165",
                 "shasum": ""
             },
             "require": {
@@ -5186,7 +5186,7 @@
                 "source": "https://github.com/twittingeek/webProbe/tree/master",
                 "issues": "https://github.com/twittingeek/webProbe/issues"
             },
-            "time": "2020-10-06T06:31:18+00:00"
+            "time": "2020-10-14T14:22:39+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
