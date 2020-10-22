@@ -2932,16 +2932,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.9.8",
+            "version": "v1.9.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "1cc70238036f54760ce9180484c973b1a3c87b05"
+                "reference": "7335ec033995aa34133e621627333368f260b626"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/1cc70238036f54760ce9180484c973b1a3c87b05",
-                "reference": "1cc70238036f54760ce9180484c973b1a3c87b05",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/7335ec033995aa34133e621627333368f260b626",
+                "reference": "7335ec033995aa34133e621627333368f260b626",
                 "shasum": ""
             },
             "require": {
@@ -2957,7 +2957,7 @@
             "type": "composer-plugin",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8-dev"
+                    "dev-main": "1.9-dev"
                 },
                 "class": "Symfony\\Flex\\Flex"
             },
@@ -2977,7 +2977,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2020-10-13T17:37:40+00:00"
+            "time": "2020-10-14T17:41:54+00:00"
         },
         {
             "name": "symfony/form",
@@ -3203,16 +3203,16 @@
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v2.2.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3"
+                "reference": "41db680a15018f9c1d4b23516059633ce280ca33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
-                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/41db680a15018f9c1d4b23516059633ce280ca33",
+                "reference": "41db680a15018f9c1d4b23516059633ce280ca33",
                 "shasum": ""
             },
             "require": {
@@ -3223,8 +3223,9 @@
             },
             "type": "library",
             "extra": {
+                "branch-version": "2.3",
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-main": "2.3-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -3260,7 +3261,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2020-09-07T11:33:47+00:00"
+            "time": "2020-10-14T17:08:19+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -5160,12 +5161,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:twittingeek/webProbe.git",
-                "reference": "98563bf0d92819b10b68ee4067d16e68a3097165"
+                "reference": "a04b1d84f2b3778ff3d610aac6be2413c326dbd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twittingeek/webProbe/zipball/98563bf0d92819b10b68ee4067d16e68a3097165",
-                "reference": "98563bf0d92819b10b68ee4067d16e68a3097165",
+                "url": "https://api.github.com/repos/twittingeek/webProbe/zipball/a04b1d84f2b3778ff3d610aac6be2413c326dbd0",
+                "reference": "a04b1d84f2b3778ff3d610aac6be2413c326dbd0",
                 "shasum": ""
             },
             "require": {
@@ -5186,7 +5187,7 @@
                 "source": "https://github.com/twittingeek/webProbe/tree/master",
                 "issues": "https://github.com/twittingeek/webProbe/issues"
             },
-            "time": "2020-10-14T14:22:39+00:00"
+            "time": "2020-10-16T06:58:17+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",

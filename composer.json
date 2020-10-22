@@ -21,8 +21,10 @@
         "symfony/validator": "5.1.*",
         "symfony/web-server-bundle": "4.4",
         "symfony/yaml": "5.1.*",
-        "twittingeek/webProbe": "dev-master"
-    },
+        "twittingeek/webProbe": "dev-master",
+		"ext-dom": "*",
+		"ext-libxml": "*"
+	},
     "require-dev": {
         "symfony/debug-bundle": "5.1.*"
     },
