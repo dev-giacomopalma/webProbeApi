@@ -61,8 +61,9 @@ class LaunchPadController extends AbstractFOSRestController
 
             $response = ['data' => $missionResult->getPayload()];
 
+            $response = self::cleanResults($response);
             $this->persistRequestResponse($request, $response);
-            return $this->json(self::cleanResults($response));
+            return $this->json($response);
         }
 
     }
@@ -133,7 +134,10 @@ class LaunchPadController extends AbstractFOSRestController
     private static function cleanResults($data)
     {
         if (is_string($data)) {
-            return utf8_encode($data);
+            if (mb_detect_encoding($data, 'UTF-8', true) === false) {
+                $data = mb_convert_encoding($data, 'UTF-8', 'iso-8859-1');
+            }
+            return $data;
         }
 
         if (is_array($data)) {

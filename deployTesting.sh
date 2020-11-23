@@ -1,2 +1,2 @@
  #!/bin/bash
- rsync -auv * pi@192.168.0.8:/home/pi/webProbeApi
+ rsync -auv * pi@192.168.178.23:/home/pi/webProbeApi
