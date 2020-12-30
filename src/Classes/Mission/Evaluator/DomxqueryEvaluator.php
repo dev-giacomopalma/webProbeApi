@@ -10,10 +10,10 @@ use Exception;
 
 class DomxqueryEvaluator implements EvaluatorInterface
 {
-	/** @var string */
+	/** @var array */
 	private $payload;
 
-	public function __construct(string $payload)
+	public function __construct(array $payload)
 	{
 		$this->payload = $payload;
 	}

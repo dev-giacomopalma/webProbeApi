@@ -12,6 +12,10 @@ use twittingeek\webProbe\Missions\BaseMission;
 use twittingeek\webProbe\Missions\Interfaces\MissionResult;
 use twittingeek\webProbe\Probes\Libraries\DiscoveryLibrary;
 use twittingeek\webProbe\Probes\ProbeResult;
+use App\Classes\Mission\Evaluator\TagEvaluator;
+use App\Classes\Mission\Evaluator\TextEvaluator;
+use App\Classes\Mission\Evaluator\HrefEvaluator;
+use App\Classes\Mission\Evaluator\DomxqueryEvaluator;
 
 class ApiMission extends BaseMission
 {
@@ -72,10 +76,25 @@ class ApiMission extends BaseMission
 						);
 					}
 
-                    $evaluatorName = sprintf('%sEvaluator',ucfirst($evaluationRule['type']));
+                    switch ($evaluationRule['type']) {
+						case "tag":
+							/** @var EvaluatorInterface $evaluator */
+							$evaluator = new TagEvaluator($this->probeResult->payload);
+							break;
+						case "text":
+							/** @var EvaluatorInterface $evaluator */
+							$evaluator = new TextEvaluator($this->probeResult->payload);
+							break;
+						case "href":
+							/** @var EvaluatorInterface $evaluator */
+							$evaluator = new HrefEvaluator($this->probeResult->payload);
+							break;
+						case "domxquery":
+							/** @var EvaluatorInterface $evaluator */
+							$evaluator = new DomxqueryEvaluator($this->probeResult->payload);
+							break;
+					}
 
-                    /** @var EvaluatorInterface $evaluator */
-                    $evaluator = new $evaluatorName($this->probeResult->payload);
 					try {
 						$resEvaluation[$name] = $evaluator->evaluate($evaluationRule);
 					} catch (Exception $e) {
