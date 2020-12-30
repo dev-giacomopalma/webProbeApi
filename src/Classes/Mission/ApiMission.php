@@ -6,13 +6,10 @@ use App\Classes\Exceptions\FieldEvaluationException;
 use App\Classes\Exceptions\UnsupportedEvaluationRuleTypeException;
 use App\Classes\Exceptions\UnsupportedResultTypeException;
 use App\Classes\Mission\Dto\FieldDto;
-use DOMDocument;
-use DOMNodeList;
-use DOMXPath;
+use App\Classes\Mission\Evaluator\Interfaces\EvaluatorInterface;
 use Exception;
 use twittingeek\webProbe\Missions\BaseMission;
 use twittingeek\webProbe\Missions\Interfaces\MissionResult;
-use twittingeek\webProbe\Probes\Helpers\ScraperHelper;
 use twittingeek\webProbe\Probes\Libraries\DiscoveryLibrary;
 use twittingeek\webProbe\Probes\ProbeResult;
 
@@ -64,69 +61,32 @@ class ApiMission extends BaseMission
                     if (null === $firstKey) {
                         $firstKey = $name;
                     }
-                    switch ($evaluationRule['type']) {
-                        case self::EVALUATION_RULE_TYPE_TAG_NAME:
-                            try {
-                                $resEvaluation[$name] = $this->evaluateFieldTag($evaluationRule);
-                            } catch (Exception $e) {
-                                throw new FieldEvaluationException(
-                                    sprintf(
-                                        'Impossible to evaluate field: %s, verify the request is correct %s',
-                                        $name,
-                                        json_encode($evaluationRule)
-                                    )
-                                );
-                            }
-                            break;
-                        case self::EVALUATION_RULE_TYPE_TEXT_NAME:
-                            try {
-                                $resEvaluation[$name] = $this->evaluateFieldText($evaluationRule);
-                            } catch (Exception $e) {
-                                throw new FieldEvaluationException(
-                                    sprintf(
-                                        'Impossible to evaluate field: %s, verify the request is correct %s',
-                                        $name,
-                                        json_encode($evaluationRule)
-                                    )
-                                );
-                            }
-                            break;
-                        case self::EVALUATION_RULE_TYPE_HREF_NAME:
-                            try {
-                                $resEvaluation[$name] = $this->evaluateFieldHref($evaluationRule);
-                            } catch (Exception $e) {
-                                throw new FieldEvaluationException(
-                                    sprintf(
-                                        'Impossible to evaluate field: %s, verify the request is correct %s'.$e->getMessage(),
-                                        $name,
-                                        json_encode($evaluationRule)
-                                    )
-                                );
-                            }
-                            break;
-                        case self::EVALUATION_RULE_TYPE_DOM_QUERY_NAME:
-                            try {
-                                $resEvaluation[$name] = $this->evaluateDomQuery($evaluationRule);
-                            } catch (Exception $e) {
-                                throw new FieldEvaluationException(
-                                    sprintf(
-                                        'Impossible to evaluate field: %s, verify the request is correct %s'.$e->getMessage(),
-                                        $name,
-                                        json_encode($evaluationRule)
-                                    )
-                                );
-                            }
-                            break;
-                        default:
-                            throw new UnsupportedEvaluationRuleTypeException(
-                                sprintf(
-                                    'Unsupported evaluation rule type %s Valid evaluation rule types are: %s',
-                                    $evaluationRule['type'],
-                                    implode(', ', self::ALLOWED_EVALUATION_RULE_TYPES)
-                                    )
-                            );
-                            break;
-                    }
+
+                    if (!in_array($evaluationRule['type'], self::ALLOWED_EVALUATION_RULE_TYPES, true)) {
+						throw new UnsupportedEvaluationRuleTypeException(
+							sprintf(
+								'Unsupported evaluation rule type %s Valid evaluation rule types are: %s',
+								$evaluationRule['type'],
+								implode(', ', self::ALLOWED_EVALUATION_RULE_TYPES)
+							)
+						);
+					}
+
+                    $evaluatorName = sprintf('%sEvaluator',ucfirst($evaluationRule['type']));
+
+                    /** @var EvaluatorInterface $evaluator */
+                    $evaluator = new $evaluatorName($this->probeResult->payload);
+					try {
+						$resEvaluation[$name] = $evaluator->evaluate($evaluationRule);
+					} catch (Exception $e) {
+						throw new FieldEvaluationException(
+							sprintf(
+								'Impossible to evaluate field: %s, verify the request is correct %s',
+								$name,
+								json_encode($evaluationRule)
+							)
+						);
+					}
                 }
             }
 
@@ -166,95 +126,4 @@ class ApiMission extends BaseMission
         return new MissionResult(MissionResult::OK_STATUS_CODE, $this->probeResult->payload);
 
     }
-
-    private function evaluateFieldTag(array $evaluationRule): array
-    {
-        $res = [];
-        try {
-            $payload = $this->probeResult->payload;
-            if ($evaluationRule['identifier'][strlen($evaluationRule['identifier']) - 1] === "*") {
-                $evaluationRule['identifier'] = substr(
-                    $evaluationRule['identifier'],
-                    0,
-                    -1
-                );
-                $query = "//{$evaluationRule['tagType']}[starts-with(@{$evaluationRule['attribute']},'".$evaluationRule['identifier']."')]";
-            } else {
-                $query = "//{$evaluationRule['tagType']}[@{$evaluationRule['attribute']}='".$evaluationRule['identifier']."']";
-            }
-            $queryResult = $this->executeDomQuery($payload['body'], $query);
-            for($i=0; $i < $queryResult->count(); $i++) {
-                $res[$i] = (string) utf8_decode($queryResult->item($i)->nodeValue);
-            }
-        } catch (Exception $exception) {
-            throw new Exception($exception->getMessage());
-        }
-        return $res;
-    }
-
-    private function evaluateFieldText($evaluationRule): array
-    {
-        $payload = $this->probeResult->payload;
-        $res = ScraperHelper::readBetween(
-            $evaluationRule['identifier'],
-            $evaluationRule['closeIdentifier'],
-            $payload['body'],
-            true,
-            true
-        );
-
-        return $res;
-    }
-
-    private function evaluateFieldHref($evaluationRule)
-    {
-        $res = [];
-        try {
-            $payload = $this->probeResult->payload;
-            $query = "//a[@class='".$evaluationRule['identifier']."']/@href";
-            $queryResult = $this->executeDomQuery($payload['body'], $query);
-            for($i=0; $i < $queryResult->count(); $i++) {
-                $res[$i] = (string) $queryResult->item($i)->nodeValue;
-            }
-        } catch (Exception $exception) {
-            throw new Exception($exception->getMessage());
-        }
-        return $res;
-    }
-
-    private function evaluateDomQuery($evaluationRule)
-    {
-        $res = [];
-        try {
-            $payload = $this->probeResult->payload;
-            $queryResult = $this->executeDomQuery($payload['body'], $evaluationRule['query']);
-            if (isset($evaluationRule['node'])) {
-                if ($evaluationRule['node'] < $queryResult->count()) {
-                    $res[0] = (string) utf8_decode(($queryResult->item((int) $evaluationRule['node'])->nodeValue));
-                } else {
-                    $res[0] = '';
-                }
-            } else {
-                for ($i = 0; $i < $queryResult->count(); $i++) {
-                    $res[$i] = (string) utf8_decode($queryResult->item($i)->nodeValue);
-                }
-            }
-        } catch (Exception $exception) {
-            if (isset($evaluationRule['optional']) && $evaluationRule['optional'] !== true) {
-                throw new Exception($exception->getMessage());
-            }
-        }
-        return $res;
-    }
-
-    private function executeDomQuery(string $body, string $query): DOMNodeList
-    {
-        libxml_use_internal_errors(true);
-        $doc = new DOMDocument;
-        $doc->preserveWhiteSpace = false;
-        $doc->loadHTML($body);
-        $xpath = new DOMXPath($doc);
-        return $xpath->query($query);
-    }
-
 }
