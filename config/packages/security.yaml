@@ -14,6 +14,7 @@ security:
         users:
           simoneguglielmi: { password: 'dld=P@$gE*33S>[vn}chhUf_5./&.S%;44^,(y', roles: 'ROLE_SUPER_USER' }
           admin: { password: 'ps]Tb},^;J\`wuyM#$"aUy*45aLBtlkl', roles: 'ROLE_ADMIN' }
+          neumitetikett: { password: 'UH;Q?X33<Y&[wBR:6p9TvD47=Us(r/p~s`P4893j!', roles: 'ROLE_ADMIN' }
 
   firewalls:
     default:
