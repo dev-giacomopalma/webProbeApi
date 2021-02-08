@@ -26,13 +26,16 @@ class LaunchPadController extends AbstractController
 
     /**
      * Launch a mission.
-     * @Route("/api/missionRequest")
+     * @Route("/api/missionRequest", name="api_post_mission_request")
      *
      * @return Response
      */
     public function missionRequest(Request $request, LoggerInterface $logger): Response
     {
         $this->loggerInterface = $logger;
+        if ($request->getMethod() !== 'POST') {
+            return $this->redirectToRoute('default_request');
+        }
 
         try {
             $this->denyAccessUnlessGranted('ROLE_USER', null, 'You have no access to this endpoint');
@@ -66,6 +69,17 @@ class LaunchPadController extends AbstractController
             return $this->json($response);
         }
 
+    }
+
+    /**
+     * Return default response for invalid endpoint.
+     * @Route("/", name="default_request")
+     *
+     * @return Response
+     */
+    public function defaultResponse(LoggerInterface $logger): Response {
+        $response = ['data' => ['ERROR' => 'invalid route']];
+        return $this->json($response);
     }
 
     private function persistRequestResponse(Request $request, array $response): void
