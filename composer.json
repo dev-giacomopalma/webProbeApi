@@ -21,7 +21,7 @@
         "symfony/validator": "5.1.*",
         "symfony/web-server-bundle": "4.4",
         "symfony/yaml": "5.1.*",
-        "dev-giacomopalma/webprobe": "dev-master",
+        "twittingeek/webprobe": "dev-master",
 		"ext-dom": "*",
 		"ext-libxml": "*"
 	},
@@ -33,7 +33,7 @@
     "repositories":[
         {
             "type": "vcs",
-            "url": "git@github.com:dev-giacomopalma/webprobe.git"
+            "url": "https://github.com/twittingeek/webprobe.git"
         }
     ],
     "config": {
