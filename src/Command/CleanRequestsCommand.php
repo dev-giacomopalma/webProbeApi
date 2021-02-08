@@ -32,7 +32,7 @@ class CleanRequestsCommand extends Command
 	public function run(InputInterface $input, OutputInterface $output)
 	{
 		$now = new DateTime('now');
-		$lastCreationDate = $now->sub(new DateInterval('P7D'));
+		$lastCreationDate = $now->sub(new DateInterval('P2D'));
 		$query = "
 		DELETE FROM `requestResponse`
 		WHERE `creation_date` < '{$lastCreationDate->format('Y-m-d H:i:s')}';

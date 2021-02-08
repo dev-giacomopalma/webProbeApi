@@ -9,38 +9,38 @@ use App\Entity\RequestResponse;
 use DateInterval;
 use DateTime;
 use Exception;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\Controller\Annotations as Rest;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use twittingeek\webProbe\Missions\Settings\MissionSetting;
 use twittingeek\webProbe\Probes\Settings\ProbeSetting;
 
-/**
- * Movie controller.
- * @Route("/api", name="api_")
- */
-class LaunchPadController extends AbstractFOSRestController
+class LaunchPadController extends AbstractController
 {
+
+    /** @var LoggerInterface */
+    private $loggerInterface;
 
     /**
      * Launch a mission.
-     * @Rest\Post("/missionRequest")
+     * @Route("/api/missionRequest")
      *
      * @return Response
      */
-    public function missionRequest(Request $request): Response
+    public function missionRequest(Request $request, LoggerInterface $logger): Response
     {
+        $this->loggerInterface = $logger;
+
         try {
             $this->denyAccessUnlessGranted('ROLE_USER', null, 'You have no access to this endpoint');
         } catch (AccessDeniedException $exception) {
             return $this->returnError($exception);
         }
-        $this->rateLimitRequest($request);
         $cachedResponse = $this->findCachedResponse($request);
-
+        $this->rateLimitRequest($request);
         if (null !== $cachedResponse) {
             return $this->json(json_decode($cachedResponse));
         }
@@ -90,9 +90,22 @@ class LaunchPadController extends AbstractFOSRestController
         $data = $request->request->get('data');
         $cacheDate = new DateTime('now');
         $cacheDate->sub(new DateInterval('PT1H')); // will be fixed with timezones
-        /** @var RequestResponse $requestResponse */
-        $requestResponse = $repository->findOneBy(['md5Request' => md5(json_encode($data))]);
 
+        /** @var RequestResponse $requestResponse */
+        $requestResponse = $repository->findBy(
+            ['md5Request' => md5(json_encode($data))],
+            ['id' => 'DESC'],
+            1
+        );
+        if (null === $requestResponse
+            || empty($requestResponse)
+            || !array_key_exists(0, $requestResponse))
+        {
+            return null;
+        }
+        $requestResponse = $requestResponse[0];
+
+        $this->loggerInterface->info(__METHOD__." creation date ".json_encode($requestResponse->getCreationDate()));
         if ((null !== $requestResponse) && $requestResponse->getCreationDate() > $cacheDate) {
             return $requestResponse->getResponse();
         }
