@@ -11,6 +11,7 @@ use HeadlessChromium\Exception\EvaluationFailed;
 use HeadlessChromium\Exception\NavigationExpired;
 use HeadlessChromium\Exception\NoResponseAvailable;
 use HeadlessChromium\Exception\OperationTimedOut;
+use InvalidArgumentException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use twittingeek\webProbe\Probes\Exceptions\PageLoadException;
 
@@ -31,6 +32,7 @@ class ExceptionMapper
     private const NAVIGATION_EXPIRED = 'NAVIGATION_EXPIRED';
     private const NO_RESPONSE_ERROR = 'NO_RESPONSE_ERROR';
     private const OPERATION_TIMEOUT = 'OPERATION_TIMEOUT';
+    private const INVALID_ARGUMENT = 'INVALID ARGUMENT';
 
 
     public static function mapExceptionToErrorCode(Exception $exception): string
@@ -86,6 +88,10 @@ class ExceptionMapper
 
         if ($exception instanceof OperationTimedOut) {
             return self::OPERATION_TIMEOUT;
+        }
+
+        if ($exception instanceof InvalidArgumentException) {
+            return self::INVALID_ARGUMENT;
         }
 
         return self::GENERIC_ERROR_CODE;

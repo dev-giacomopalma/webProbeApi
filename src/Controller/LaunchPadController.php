@@ -9,6 +9,7 @@ use App\Entity\RequestResponse;
 use DateInterval;
 use DateTime;
 use Exception;
+use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +33,10 @@ class LaunchPadController extends AbstractController
      */
     public function missionRequest(Request $request, LoggerInterface $logger): Response
     {
+        if (false === json_decode($request->getContent(), true)) {
+            return $this->returnError(new InvalidArgumentException('Request format is invalid'));
+        }
+
         $this->loggerInterface = $logger;
         if ($request->getMethod() !== 'POST') {
             return $this->redirectToRoute('default_request');
@@ -42,14 +47,15 @@ class LaunchPadController extends AbstractController
         } catch (AccessDeniedException $exception) {
             return $this->returnError($exception);
         }
-        $cachedResponse = $this->findCachedResponse($request);
-        $this->rateLimitRequest($request);
-        if (null !== $cachedResponse) {
-            return $this->json(json_decode($cachedResponse));
-        }
+
 
         $data = $request->request->get('data');
         if (null !== $data) {
+            $this->rateLimitRequest($request);
+            $cachedResponse = $this->findCachedResponse($request);
+            if (null !== $cachedResponse) {
+                return $this->json(json_decode($cachedResponse));
+            }
             $probeSetting = new ProbeSetting($data['url'], $data['preparation'] ?? []);
             $probe = new ApiProbe($probeSetting);
             $missionSetting = new MissionSetting($data['resultType'], $data['evaluation'] ?? []);
@@ -100,6 +106,11 @@ class LaunchPadController extends AbstractController
 
     private function findCachedResponse(Request $request)
     {
+        if($this->isGranted('ROLE_SUPER_USER')
+            && isset($data["noCache"])
+            && $data["noCache"] === true) {
+            return null;
+        }
         $repository = $this->getDoctrine()->getRepository(RequestResponse::class);
         $data = $request->request->get('data');
         $cacheDate = new DateTime('now');

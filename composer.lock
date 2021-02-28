@@ -6226,12 +6226,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dev-giacomopalma/webprobe.git",
-                "reference": "ac1bb7c5744a09c174ecd4b7a1017c064cf9f836"
+                "reference": "a9bb1218d1b93c6c8fb0cc34022bcfa9540bf85c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dev-giacomopalma/webprobe/zipball/ac1bb7c5744a09c174ecd4b7a1017c064cf9f836",
-                "reference": "ac1bb7c5744a09c174ecd4b7a1017c064cf9f836",
+                "url": "https://api.github.com/repos/dev-giacomopalma/webprobe/zipball/a9bb1218d1b93c6c8fb0cc34022bcfa9540bf85c",
+                "reference": "a9bb1218d1b93c6c8fb0cc34022bcfa9540bf85c",
                 "shasum": ""
             },
             "require": {
@@ -6250,10 +6250,10 @@
             },
             "description": "send a probe in a mission on a website to be explored",
             "support": {
-                "source": "https://github.com/dev-giacomopalma/webprobe/tree/2.0.0",
+                "source": "https://github.com/dev-giacomopalma/webprobe/tree/master",
                 "issues": "https://github.com/dev-giacomopalma/webprobe/issues"
             },
-            "time": "2021-01-31T16:34:51+00:00"
+            "time": "2021-02-15T08:52:32+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
