@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Classes\Mission\Dto;
-
 
 class FieldDto
 {

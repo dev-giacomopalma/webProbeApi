@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controller;
+
 use App\Classes\Exceptions\ExceptionMapper;
 use App\Classes\LaunchPad\ApiLaunchPad;
 use App\Classes\Mission\ApiMission;
@@ -16,8 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use twittingeek\webProbe\Missions\Settings\MissionSetting;
-use twittingeek\webProbe\Probes\Settings\ProbeSetting;
+use App\Services\WebProbe\Missions\Settings\MissionSetting;
+use App\Services\WebProbe\Probes\Settings\ProbeSetting;
 
 class LaunchPadController extends AbstractController
 {

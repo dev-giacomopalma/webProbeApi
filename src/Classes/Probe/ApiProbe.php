@@ -2,13 +2,12 @@
 
 namespace App\Classes\Probe;
 
-use App\Classes\Probe\Setting\ApiProbeSetting;
+use App\Services\WebProbe\Probes\Settings\ProbeSetting;
 use Exception;
-use twittingeek\webProbe\Probes\Exceptions\PageLoadException;
-use twittingeek\webProbe\Probes\Helpers\ScraperHelper;
-use twittingeek\webProbe\Probes\Interfaces\Probe;
-use twittingeek\webProbe\Probes\ProbeResult;
-use twittingeek\webProbe\Probes\Settings\ProbeSetting;
+use App\Services\WebProbe\Probes\Exceptions\PageLoadException;
+use App\Services\WebProbe\Probes\Helpers\ScraperHelper;
+use App\Services\WebProbe\Probes\Interfaces\Probe;
+use App\Services\WebProbe\Probes\ProbeResult;
 
 class ApiProbe implements Probe
 {

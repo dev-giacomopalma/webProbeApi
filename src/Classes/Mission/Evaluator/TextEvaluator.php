@@ -3,7 +3,7 @@
 namespace App\Classes\Mission\Evaluator;
 
 use App\Classes\Mission\Evaluator\Interfaces\EvaluatorInterface;
-use twittingeek\webProbe\Probes\Helpers\ScraperHelper;
+use App\Services\WebProbe\Probes\Helpers\ScraperHelper;
 
 class TextEvaluator implements EvaluatorInterface
 {

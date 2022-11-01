@@ -13,7 +13,7 @@ use HeadlessChromium\Exception\NoResponseAvailable;
 use HeadlessChromium\Exception\OperationTimedOut;
 use InvalidArgumentException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use twittingeek\webProbe\Probes\Exceptions\PageLoadException;
+use App\Services\WebProbe\Probes\Exceptions\PageLoadException;
 
 class ExceptionMapper
 {

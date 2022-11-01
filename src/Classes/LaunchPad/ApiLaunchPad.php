@@ -2,8 +2,8 @@
 
 namespace App\Classes\LaunchPad;
 
-use twittingeek\webProbe\LaunchPad\LaunchPad;
-use twittingeek\webProbe\Missions\Interfaces\MissionResult;
+use App\Services\WebProbe\LaunchPad\LaunchPad;
+use App\Services\WebProbe\Missions\Interfaces\MissionResult;
 
 class ApiLaunchPad extends LaunchPad
 {
