@@ -86,6 +86,40 @@ class APIController extends AbstractController
     }
 
     /**
+     * Launch a mission.
+     * @Route("/api/mission/{uuid}", name="api_get_mission")
+     * @param string $uuid
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function mission(string $uuid, Request $request): Response
+    {
+
+        if ($request->getMethod() !== 'GET') {
+            return $this->redirectToRoute('default_request');
+        }
+
+        try {
+            $this->denyAccessUnlessGranted('ROLE_USER', null, 'You have no access to this endpoint');
+        } catch (AccessDeniedException $exception) {
+            return $this->json(ControllerHelper::returnError($exception));
+        }
+
+        if (!empty($uuid)) {
+            $this->requestResponsePersistenceLayer->rateLimitRequest($request);
+
+            /** @var RequestResponse $response */
+            $response = $this->requestResponsePersistenceLayer->findByUuidAndUser($uuid, $request->getUser());
+            if (null !== $response && null != $response->getResponse()) {
+                return $this->json(json_decode($response->getResponse()));
+            } else {
+                return $this->json(['data' => 'not found'], 404);
+            }
+        }
+    }
+
+    /**
      * Return default response for invalid endpoint.
      * @Route("/", name="default_request")
      *
