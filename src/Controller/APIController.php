@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\Helper\ControllerHelper;
+use App\Entity\RequestResponse;
 use App\PersistenceLayer\RequestResponsePersistance;
 use App\Services\WebProbe\LaunchPad\LaunchPad;
 use App\Services\WebProbe\Missions\Mission;
@@ -54,9 +55,13 @@ class APIController extends AbstractController
         $data = $request->request->get('data');
         if (null !== $data) {
             $this->requestResponsePersistenceLayer->rateLimitRequest($request);
+
+            /** @var RequestResponse $cachedResponse */
             $cachedResponse = $this->requestResponsePersistenceLayer->findCachedResponse($request);
-            if (null !== $cachedResponse) {
-                return $this->json(json_decode($cachedResponse));
+            if (null !== $cachedResponse && null != $cachedResponse->getResponse()) {
+                $response = json_decode($cachedResponse->getResponse());
+                $response->uuid = $cachedResponse->getUuid();
+                return $this->json($response);
             }
             $probe = new Probe($data['url'], $data['preparation'] ?? []);
             $mission = new Mission($probe, $data['resultType'], $data['evaluation'] ?? []);
@@ -71,7 +76,10 @@ class APIController extends AbstractController
             $response = ['data' => $missionResult->getPayload()];
 
             $response = ControllerHelper::cleanResults($response);
-            $this->requestResponsePersistenceLayer->persistRequestResponse($request, $response);
+
+            $missionId = $this->requestResponsePersistenceLayer->persistRequestResponse($request, $response);
+            $response['missionId'] = $missionId;
+
             return $this->json($response);
         }
 
