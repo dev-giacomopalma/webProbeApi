@@ -2,8 +2,8 @@
 
 namespace App\Tests\Mission;
 
-use App\Classes\Mission\Dto\FieldDto;
 use App\Services\WebProbe\LaunchPad\LaunchPad;
+use App\Services\WebProbe\Missions\Dto\FieldDto;
 use App\Services\WebProbe\Missions\Mission;
 use App\Services\WebProbe\Probes\Probe;
 use Exception;

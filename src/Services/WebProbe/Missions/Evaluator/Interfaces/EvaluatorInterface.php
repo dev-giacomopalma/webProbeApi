@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes\Mission\Evaluator\Interfaces;
+namespace App\Services\WebProbe\Missions\Evaluator\Interfaces;
 
 interface EvaluatorInterface
 {

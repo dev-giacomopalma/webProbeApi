@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Classes\Exceptions\ExceptionMapper;
+use App\Exceptions\ExceptionMapper;
 use App\Entity\RequestCount;
 use App\Entity\RequestResponse;
 use App\Services\WebProbe\LaunchPad\LaunchPad;

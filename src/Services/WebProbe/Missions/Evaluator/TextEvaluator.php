@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Classes\Mission\Evaluator;
+namespace App\Services\WebProbe\Missions\Evaluator;
 
-use App\Classes\Mission\Evaluator\Interfaces\EvaluatorInterface;
+use App\Services\WebProbe\Missions\Evaluator\Interfaces\EvaluatorInterface;
 use App\Services\WebProbe\Probes\Helpers\ScraperHelper;
 
 class TextEvaluator implements EvaluatorInterface

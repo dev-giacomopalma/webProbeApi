@@ -2,19 +2,18 @@
 
 namespace App\Services\WebProbe\Missions;
 
-use App\Classes\Exceptions\FieldEvaluationException;
-use App\Classes\Exceptions\UnsupportedEvaluationRuleTypeException;
-use App\Classes\Exceptions\UnsupportedResultTypeException;
-use App\Classes\Mission\Dto\FieldDto;
-use App\Classes\Mission\Evaluator\Interfaces\EvaluatorInterface;
-use App\Services\WebProbe\Missions\Settings\MissionSetting;
+use App\Exceptions\FieldEvaluationException;
+use App\Exceptions\UnsupportedEvaluationRuleTypeException;
+use App\Exceptions\UnsupportedResultTypeException;
+use App\Services\WebProbe\Missions\Evaluator\Interfaces\EvaluatorInterface;
+use App\Services\WebProbe\Missions\Dto\FieldDto;
 use App\Services\WebProbe\Probes\Probe;
 use Exception;
 use App\Services\WebProbe\Probes\ProbeResult;
-use App\Classes\Mission\Evaluator\TagEvaluator;
-use App\Classes\Mission\Evaluator\TextEvaluator;
-use App\Classes\Mission\Evaluator\HrefEvaluator;
-use App\Classes\Mission\Evaluator\DomxqueryEvaluator;
+use App\Services\WebProbe\Missions\Evaluator\TagEvaluator;
+use App\Services\WebProbe\Missions\Evaluator\TextEvaluator;
+use App\Services\WebProbe\Missions\Evaluator\HrefEvaluator;
+use App\Services\WebProbe\Missions\Evaluator\DomxqueryEvaluator;
 
 class Mission
 {

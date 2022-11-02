@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes\Mission\Dto;
+namespace App\Services\WebProbe\Missions\Dto;
 
 class FieldDto
 {
