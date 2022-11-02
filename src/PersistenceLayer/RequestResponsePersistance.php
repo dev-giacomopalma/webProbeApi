@@ -40,6 +40,20 @@ class RequestResponsePersistance extends AbstractController
         return $requestResponse->getUuid();
     }
 
+    public function findByUuidAndUser(string $uuid, string $user)
+    {
+        $repository = $this->getDoctrine()->getRepository(RequestResponse::class);
+        $requestResponse = $repository->findOneBy(
+            [
+                'uuid' => $uuid,
+                'user' => $user
+
+            ]
+        );
+
+        return $requestResponse ?? null;
+    }
+
     public function findCachedResponse(Request $request)
     {
         if($this->isGranted('ROLE_SUPER_USER')
