@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Classes\Probe;
+namespace App\Services\WebProbe\Probes;
 
-use App\Services\WebProbe\Probes\Settings\ProbeSetting;
-use Exception;
 use App\Services\WebProbe\Probes\Exceptions\PageLoadException;
 use App\Services\WebProbe\Probes\Helpers\ScraperHelper;
-use App\Services\WebProbe\Probes\Interfaces\Probe;
-use App\Services\WebProbe\Probes\ProbeResult;
 
-class ApiProbe implements Probe
+class Probe
 {
 
-    /** @var ProbeSetting */
-    private $probeSetting;
+    /** @var string */
+    private $url;
 
-    public function __construct(ProbeSetting $probeSetting)
+    /** @var array */
+    private $preparation;
+
+    public function __construct(string $url, array $preparation = [])
     {
-        $this->probeSetting = $probeSetting;
+        $this->url = $url;
+        $this->preparation = $preparation;
     }
 
     /**
@@ -36,8 +36,8 @@ class ApiProbe implements Probe
     {
 
         $page = ScraperHelper::loadPage(
-            $this->probeSetting->getUrl(),
-            json_encode($this->probeSetting->getPreparation())
+            $this->url,
+            json_encode($this->preparation)
         );
 
         $probeResult = new ProbeResult();

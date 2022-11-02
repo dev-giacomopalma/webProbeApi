@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Classes\Mission;
+namespace App\Services\WebProbe\Missions;
 
 use App\Classes\Exceptions\FieldEvaluationException;
 use App\Classes\Exceptions\UnsupportedEvaluationRuleTypeException;
 use App\Classes\Exceptions\UnsupportedResultTypeException;
 use App\Classes\Mission\Dto\FieldDto;
 use App\Classes\Mission\Evaluator\Interfaces\EvaluatorInterface;
+use App\Services\WebProbe\Missions\Settings\MissionSetting;
+use App\Services\WebProbe\Probes\Probe;
 use Exception;
-use App\Services\WebProbe\Missions\BaseMission;
-use App\Services\WebProbe\Missions\Interfaces\MissionResult;
-use App\Services\WebProbe\Probes\DiscoveryLibraries\DiscoveryLibrary;
 use App\Services\WebProbe\Probes\ProbeResult;
 use App\Classes\Mission\Evaluator\TagEvaluator;
 use App\Classes\Mission\Evaluator\TextEvaluator;
 use App\Classes\Mission\Evaluator\HrefEvaluator;
 use App\Classes\Mission\Evaluator\DomxqueryEvaluator;
 
-class ApiMission extends BaseMission
+class Mission
 {
 
     private const EVALUATION_RULE_TYPE_TAG_NAME = 'tag';
@@ -44,8 +43,21 @@ class ApiMission extends BaseMission
     /** @var ProbeResult */
     private $probeResult;
 
-    /** @var DiscoveryLibrary */
-    private $discoveryLibrary;
+    /** @var string */
+    private $resultType;
+
+    /** @var array */
+    private $evaluation;
+
+    /** @var Probe */
+    public $probe;
+
+    public function __construct(Probe $probe, string $resultType, array $evaluation = [])
+    {
+        $this->resultType = $resultType;
+        $this->evaluation = $evaluation;
+        $this->probe = $probe;
+    }
 
     /**
      * @return MissionResult
@@ -55,11 +67,10 @@ class ApiMission extends BaseMission
     {
         $this->probeResult = $this->probe->run();
 
-        if (null !== $this->missionSetting->getEvaluation() && !empty($this->missionSetting->getEvaluation())) {
-            $this->discoveryLibrary = new DiscoveryLibrary();
+        if (!empty($this->evaluation)) {
             $firstKey = null;
             /** @var array $evaluation */
-            foreach ($this->missionSetting->getEvaluation() as $evaluationRules) {
+            foreach ($this->evaluation as $evaluationRules) {
                 $resEvaluation = [];
                 foreach ($evaluationRules as $name => $evaluationRule) {
                     if (null === $firstKey) {
@@ -112,15 +123,15 @@ class ApiMission extends BaseMission
             if (empty($resEvaluation)) {
                 return new MissionResult(self::STATUS_EMPTY, []);
             }
-            if ($this->missionSetting->getResultType() === self::RESULT_TYPE_ALL_NAME) {
+            if ($this->resultType === self::RESULT_TYPE_ALL_NAME) {
                 $resCount = count($resEvaluation[$name]);
-            } elseif ($this->missionSetting->getResultType() === self::RESULT_TYPE_SINGLE_NAME) {
+            } elseif ($this->resultType === self::RESULT_TYPE_SINGLE_NAME) {
                 $resCount = 1;
             } else {
                 throw new UnsupportedResultTypeException(
                     sprintf(
                         'Unsupported result type %s Valid result types are: %s',
-                        $this->missionSetting->getResultType(),
+                        $this->resultType,
                         implode(', ', self::ALLOWED_RESULT_TYPES)
                     )
                 );
@@ -144,5 +155,10 @@ class ApiMission extends BaseMission
 
         return new MissionResult(MissionResult::OK_STATUS_CODE, $this->probeResult->payload);
 
+    }
+
+    public function getProbe(): Probe
+    {
+        return $this->probe;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\WebProbe\Missions\Interfaces;
+namespace App\Services\WebProbe\Missions;
 
 class MissionResult
 {

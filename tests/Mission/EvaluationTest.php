@@ -2,14 +2,12 @@
 
 namespace App\Tests\Mission;
 
-use App\Classes\LaunchPad\ApiLaunchPad;
-use App\Classes\Mission\ApiMission;
 use App\Classes\Mission\Dto\FieldDto;
-use App\Classes\Probe\ApiProbe;
+use App\Services\WebProbe\LaunchPad\LaunchPad;
+use App\Services\WebProbe\Missions\Mission;
+use App\Services\WebProbe\Probes\Probe;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use App\Services\WebProbe\Missions\Settings\MissionSetting;
-use App\Services\WebProbe\Probes\Settings\ProbeSetting;
 
 class EvaluationTest extends TestCase
 {
@@ -21,11 +19,9 @@ class EvaluationTest extends TestCase
 	 * @param $expectedResults
 	 */
 	public function testEvaluation(array $evaluation) {
-		$probeSetting = new ProbeSetting(self::URL);
-		$probe = new ApiProbe($probeSetting);
-		$missionSetting = new MissionSetting('single', $evaluation);
-		$mission = new ApiMission($missionSetting, $probe);
-		$launchPad = new ApiLaunchPad($mission);
+		$probe = new Probe(self::URL);
+		$mission = new Mission($probe,'single', $evaluation);
+		$launchPad = new LaunchPad($mission);
 
 		try {
 			$missionResult = $launchPad->launch();

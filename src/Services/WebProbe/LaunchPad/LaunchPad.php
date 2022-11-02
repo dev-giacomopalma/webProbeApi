@@ -2,12 +2,11 @@
 
 namespace App\Services\WebProbe\LaunchPad;
 
-use App\Services\WebProbe\LaunchPad\Interfaces\LaunchPad as LaunchPadInterface;
-use App\Services\WebProbe\Missions\Interfaces\Mission;
-use App\Services\WebProbe\Missions\Interfaces\MissionResult;
+use App\Services\WebProbe\Missions\Mission;
+use App\Services\WebProbe\Missions\MissionResult;
 
 
-class LaunchPad implements LaunchPadInterface
+class LaunchPad
 {
 
     /** @var Mission */
