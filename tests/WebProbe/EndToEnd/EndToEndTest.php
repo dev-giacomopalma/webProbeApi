@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Tests\WebProbe\EndToEnd;
+
 use PHPUnit\Framework\TestCase;
 use App\Services\WebProbe\Probes\Helpers\ScraperHelper;
 use App\Services\WebProbe\Probes\DiscoveryLibraries\DiscoveryLibrary;

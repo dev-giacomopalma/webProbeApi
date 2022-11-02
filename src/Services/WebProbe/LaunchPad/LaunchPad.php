@@ -5,7 +5,6 @@ namespace App\Services\WebProbe\LaunchPad;
 use App\Services\WebProbe\Missions\Mission;
 use App\Services\WebProbe\Missions\MissionResult;
 
-
 class LaunchPad
 {
 

@@ -5,8 +5,6 @@ namespace App\Services\WebProbe\Probes;
 class ProbeResult
 {
 
-    public const OK_STATUS_CODE = 200;
-
     /** @var string */
     public $statusCode;
 

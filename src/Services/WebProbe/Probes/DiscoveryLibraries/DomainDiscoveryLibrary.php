@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\WebProbe\Probes\DiscoveryLibraries;
-
 
 class DomainDiscoveryLibrary extends DiscoveryLibrary
 {

@@ -3,7 +3,6 @@
 namespace App\Tests\WebProbe\Libraries;
 
 use PHPUnit\Framework\TestCase;
-use App\Services\WebProbe\Probes\Helpers\ScraperHelper;
 use App\Services\WebProbe\Probes\DiscoveryLibraries\PriceDiscoveryLibrary;
 
 class PriceDiscoveryLibraryTest extends TestCase
