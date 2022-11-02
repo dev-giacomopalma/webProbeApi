@@ -131,7 +131,7 @@ class ApiMission extends BaseMission
                 foreach ($resEvaluation as $key => $items) {
                     $field = new FieldDto();
                     $field->name = $key;
-                    $field->value = $items[$i] ?? '';
+                    $field->value = trim($items[$i]) ?? '';
 
                     $res[] = $field;
                 }

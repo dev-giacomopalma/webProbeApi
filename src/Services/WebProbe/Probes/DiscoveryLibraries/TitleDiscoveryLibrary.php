@@ -31,7 +31,7 @@ class TitleDiscoveryLibrary extends DiscoveryLibrary
             true
             );
         if (isset( $elements[0])) {
-            return ScraperHelper::readAfter('>',$elements[0])[0];
+            return trim(ScraperHelper::readAfter('>',$elements[0])[0]);
         } else {
             $elements = $this->readBetween(
                 '<h1',
@@ -41,7 +41,7 @@ class TitleDiscoveryLibrary extends DiscoveryLibrary
                 true
             );
             if (isset( $elements[0])) {
-                return ScraperHelper::readAfter('>',$elements[0])[0];
+                return trim(ScraperHelper::readAfter('>',$elements[0])[0]);
             } else {
                 return '';
             }

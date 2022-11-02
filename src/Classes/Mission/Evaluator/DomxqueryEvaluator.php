@@ -26,13 +26,13 @@ class DomxqueryEvaluator implements EvaluatorInterface
 			$queryResult = self::executeDomQuery($payload['body'], $evaluationRule['query']);
 			if (isset($evaluationRule['node'])) {
 				if ($evaluationRule['node'] < $queryResult->count()) {
-					$res[0] = (string) utf8_decode(($queryResult->item((int) $evaluationRule['node'])->nodeValue));
+					$res[0] = (string) trim(utf8_decode(($queryResult->item((int) $evaluationRule['node'])->nodeValue)));
 				} else {
 					$res[0] = '';
 				}
 			} else {
 				for ($i = 0; $i < $queryResult->count(); $i++) {
-					$res[$i] = (string) utf8_decode($queryResult->item($i)->nodeValue);
+					$res[$i] = (string) trim(utf8_decode($queryResult->item($i)->nodeValue));
 				}
 			}
 		} catch (Exception $exception) {
