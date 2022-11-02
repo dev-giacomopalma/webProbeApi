@@ -1,6 +1,6 @@
 <?php
 
-namespace App\PersistenceLayer\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,6 +22,12 @@ class RequestResponse {
      *
      */
     private $md5Request;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     *
+     */
+    private $uuid;
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
@@ -159,5 +165,21 @@ class RequestResponse {
     public function setCreationDate($creationDate): void
     {
         $this->creationDate = $creationDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param mixed $uuid
+     */
+    public function setUuid($uuid): void
+    {
+        $this->uuid = $uuid;
     }
 }

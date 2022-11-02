@@ -2,11 +2,12 @@
 
 namespace App\PersistenceLayer;
 
-use App\PersistenceLayer\Entity\RequestCount;
-use App\PersistenceLayer\Entity\RequestResponse;
+use App\Entity\RequestCount;
+use App\Entity\RequestResponse;
 use DateInterval;
 use DateTime;
 use Psr\Log\LoggerInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,11 +20,13 @@ class RequestResponsePersistance extends AbstractController
         $this->loggerInterface = $logger;
     }
 
-    public function persistRequestResponse(Request $request, array $response): void
+    public function persistRequestResponse(Request $request, array $response): string
     {
         $data = $request->request->get('data');
         $requestResponse = new RequestResponse();
-        $requestResponse->setMd5Request(md5(json_encode($data)));
+        $md5Request = md5(json_encode($data));
+        $requestResponse->setMd5Request($md5Request);
+        $requestResponse->setUuid(Uuid::uuid4()->toString());
         $requestResponse->setRequest(json_encode($data));
         $requestResponse->setResponse(json_encode($response));
         $requestResponse->setUser($request->getUser());
@@ -33,6 +36,8 @@ class RequestResponsePersistance extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->persist($requestResponse);
         $em->flush();
+
+        return $requestResponse->getUuid();
     }
 
     public function findCachedResponse(Request $request)
@@ -59,11 +64,13 @@ class RequestResponsePersistance extends AbstractController
         {
             return null;
         }
+
+        /** @var RequestResponse $requestResponse */
         $requestResponse = $requestResponse[0];
 
         $this->loggerInterface->info(__METHOD__." creation date ".json_encode($requestResponse->getCreationDate()));
         if ((null !== $requestResponse) && $requestResponse->getCreationDate() > $cacheDate) {
-            return $requestResponse->getResponse();
+            return $requestResponse;
         }
 
         return null;
