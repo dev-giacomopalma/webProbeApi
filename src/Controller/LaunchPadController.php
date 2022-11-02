@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Controller;
-use App\Classes\Exceptions\ExceptionMapper;
-use App\Classes\LaunchPad\ApiLaunchPad;
-use App\Classes\Mission\ApiMission;
-use App\Classes\Probe\ApiProbe;
+
+use App\Exceptions\ExceptionMapper;
 use App\Entity\RequestCount;
 use App\Entity\RequestResponse;
+use App\Services\WebProbe\LaunchPad\LaunchPad;
+use App\Services\WebProbe\Missions\Mission;
+use App\Services\WebProbe\Probes\Probe;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -16,8 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use twittingeek\webProbe\Missions\Settings\MissionSetting;
-use twittingeek\webProbe\Probes\Settings\ProbeSetting;
 
 class LaunchPadController extends AbstractController
 {
@@ -56,11 +56,9 @@ class LaunchPadController extends AbstractController
             if (null !== $cachedResponse) {
                 return $this->json(json_decode($cachedResponse));
             }
-            $probeSetting = new ProbeSetting($data['url'], $data['preparation'] ?? []);
-            $probe = new ApiProbe($probeSetting);
-            $missionSetting = new MissionSetting($data['resultType'], $data['evaluation'] ?? []);
-            $mission = new ApiMission($missionSetting, $probe);
-            $launchPad = new ApiLaunchPad($mission);
+            $probe = new Probe($data['url'], $data['preparation'] ?? []);
+            $mission = new Mission($probe, $data['resultType'], $data['evaluation'] ?? []);
+            $launchPad = new LaunchPad($mission);
 
             try {
                 $missionResult = $launchPad->launch();

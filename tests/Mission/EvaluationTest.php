@@ -2,14 +2,12 @@
 
 namespace App\Tests\Mission;
 
-use App\Classes\LaunchPad\ApiLaunchPad;
-use App\Classes\Mission\ApiMission;
-use App\Classes\Mission\Dto\FieldDto;
-use App\Classes\Probe\ApiProbe;
+use App\Services\WebProbe\LaunchPad\LaunchPad;
+use App\Services\WebProbe\Missions\Dto\FieldDto;
+use App\Services\WebProbe\Missions\Mission;
+use App\Services\WebProbe\Probes\Probe;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use twittingeek\webProbe\Missions\Settings\MissionSetting;
-use twittingeek\webProbe\Probes\Settings\ProbeSetting;
 
 class EvaluationTest extends TestCase
 {
@@ -21,11 +19,9 @@ class EvaluationTest extends TestCase
 	 * @param $expectedResults
 	 */
 	public function testEvaluation(array $evaluation) {
-		$probeSetting = new ProbeSetting(self::URL);
-		$probe = new ApiProbe($probeSetting);
-		$missionSetting = new MissionSetting('single', $evaluation);
-		$mission = new ApiMission($missionSetting, $probe);
-		$launchPad = new ApiLaunchPad($mission);
+		$probe = new Probe(self::URL);
+		$mission = new Mission($probe,'single', $evaluation);
+		$launchPad = new LaunchPad($mission);
 
 		try {
 			$missionResult = $launchPad->launch();
@@ -51,7 +47,7 @@ class EvaluationTest extends TestCase
 							'type' => 'tag',
 							'tagType' => 'h2',
 							'attribute' => 'class',
-							'identifier' => 'destinations-slider__title',
+							'identifier' => 'hero-section__title',
 						],
 					],
 				]
@@ -69,7 +65,6 @@ class EvaluationTest extends TestCase
             /**
              * I am not really sure what this test was supposed to to, so I will skip it for now until I find out
              *
-            'test evaluation text' => [
 				'evaluation' => [
 					[
 						'id' => [
