@@ -45,7 +45,7 @@ class EvaluationTest extends TestCase
 					[
 						'id' => [
 							'type' => 'tag',
-							'tagType' => 'h2',
+							'tagType' => 'h1',
 							'attribute' => 'class',
 							'identifier' => 'hero-section__title',
 						],
