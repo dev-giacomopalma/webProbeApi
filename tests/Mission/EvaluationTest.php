@@ -45,7 +45,7 @@ class EvaluationTest extends TestCase
 					[
 						'id' => [
 							'type' => 'tag',
-							'tagType' => 'h1',
+							'tagType' => 'h2',
 							'attribute' => 'class',
 							'identifier' => 'hero-section__title',
 						],
@@ -63,7 +63,8 @@ class EvaluationTest extends TestCase
 				]
 			],
             /**
-			'test evaluation text' => [
+             * I am not really sure what this test was supposed to to, so I will skip it for now until I find out
+             *
 				'evaluation' => [
 					[
 						'id' => [
