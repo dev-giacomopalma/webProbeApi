@@ -31,13 +31,19 @@ class PictureDiscoveryLibrary extends DiscoveryLibrary
             );
 
             if (isset($elements[0])) {
-                return $elements[0];
+                return $this->cleanImgUrl($elements[0]);
             } else {
                 return null;
             }
         } catch (ScrapeElementNotFound $exception) {
             return null;
         }
+    }
+
+    private function cleanImgUrl(string $url): string
+    {
+        $elements = explode('?',$url);
+        return $elements[0] ?? $url;
     }
 
 }

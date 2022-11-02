@@ -8,8 +8,8 @@ use App\Classes\Mission\Dto\FieldDto;
 use App\Classes\Probe\ApiProbe;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use twittingeek\webProbe\Missions\Settings\MissionSetting;
-use twittingeek\webProbe\Probes\Settings\ProbeSetting;
+use App\Services\WebProbe\Missions\Settings\MissionSetting;
+use App\Services\WebProbe\Probes\Settings\ProbeSetting;
 
 class EvaluationTest extends TestCase
 {
@@ -51,7 +51,7 @@ class EvaluationTest extends TestCase
 							'type' => 'tag',
 							'tagType' => 'h1',
 							'attribute' => 'class',
-							'identifier' => 'city-intro__title',
+							'identifier' => 'hero-section__title',
 						],
 					],
 				]
@@ -66,6 +66,7 @@ class EvaluationTest extends TestCase
 					],
 				]
 			],
+            /**
 			'test evaluation text' => [
 				'evaluation' => [
 					[
@@ -77,6 +78,7 @@ class EvaluationTest extends TestCase
 					],
 				]
 			],
+             */
 			'test evaluation domxquery' => [
 				'evaluation' => [
 					[

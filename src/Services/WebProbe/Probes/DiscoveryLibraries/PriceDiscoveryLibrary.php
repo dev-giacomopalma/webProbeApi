@@ -2,6 +2,8 @@
 
 namespace App\Services\WebProbe\Probes\DiscoveryLibraries;
 
+use App\Services\WebProbe\Probes\DiscoveryLibraries\Dtos\Price;
+
 class PriceDiscoveryLibrary extends DiscoveryLibrary
 {
     private const ANALISE_STRING_LENGHT = 7;
@@ -32,7 +34,7 @@ class PriceDiscoveryLibrary extends DiscoveryLibrary
         $this->currency = $currency;
     }
 
-    public function findPrice(): array
+    public function findPrice(): Price
     {
         $this->preparePage();
         $allPricesFound = $this->analiseChunksForPrices(
@@ -44,7 +46,7 @@ class PriceDiscoveryLibrary extends DiscoveryLibrary
         if (isset($allPricesFound[0]) && null !== $allPricesFound[0] && array_key_exists(0, $allPricesFound)) {
             $price = $allPricesFound[0];
         }
-        return ['stack' => $this->stack, 'price' => $price];
+        return new Price($this->stack, $price);
     }
 
     private function preparePage(): void

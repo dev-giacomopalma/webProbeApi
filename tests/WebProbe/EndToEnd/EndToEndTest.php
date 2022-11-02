@@ -10,6 +10,7 @@ class EndToEndTest extends TestCase
 
 
     public function testExecuteActions() {
+        $this->markTestSkipped('avoid to run a live test');
         $pageIdentifier = 'ctl00$cphMain$DataPager1$ctl02$ctl00';
         $actions = [
             [
