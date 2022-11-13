@@ -56,13 +56,13 @@ class RequestResponsePersistance extends AbstractController
 
     public function findCachedResponse(Request $request)
     {
+        $data = $request->request->get('data');
         if($this->isGranted('ROLE_SUPER_USER')
             && isset($data["noCache"])
             && $data["noCache"] === true) {
             return null;
         }
         $repository = $this->getDoctrine()->getRepository(RequestResponse::class);
-        $data = $request->request->get('data');
         $cacheDate = new DateTime('now');
         $cacheDate->sub(new DateInterval('PT1H')); // will be fixed with timezones
 

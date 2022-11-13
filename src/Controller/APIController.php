@@ -58,6 +58,7 @@ class APIController extends AbstractController
 
             /** @var RequestResponse $cachedResponse */
             $cachedResponse = $this->requestResponsePersistenceLayer->findCachedResponse($request);
+            $logger->info($cachedResponse !== null ? 'cache used' : 'no cache used');
             if (null !== $cachedResponse && null != $cachedResponse->getResponse()) {
                 $response = json_decode($cachedResponse->getResponse());
                 $response->uuid = $cachedResponse->getUuid();
